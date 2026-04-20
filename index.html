@@ -119,10 +119,19 @@
     .footer-links a{font-size:0.78rem;color:var(--ink-soft);transition:color 0.2s;}
     .footer-links a:hover{color:var(--sage);}
     .footer-copy{font-size:0.75rem;color:var(--ink-soft);opacity:0.5;}
+    .hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;}
+    .hamburger span{display:block;width:24px;height:2px;background:var(--ink);border-radius:2px;transition:all 0.3s;}
     @media(max-width:768px){
       .hero-inner,.about-inner,.contact-inner{grid-template-columns:1fr;}
       .hero-art{max-width:220px;}.about-photo{max-width:200px;aspect-ratio:1;}
-      .nav-links{display:none;}
+      .hamburger{display:flex;}
+      .nav-links{display:none;flex-direction:column;position:absolute;top:64px;left:0;right:0;background:rgba(248,250,247,0.98);border-bottom:1px solid var(--border);padding:16px 32px 24px;gap:4px;z-index:99;}
+      .nav-links.open{display:flex;}
+      .nav-links li{width:100%;}
+      .nav-links a{font-size:1rem;padding:10px 0;display:block;border-bottom:1px solid var(--border);}
+      .nav-dropdown .dropdown-menu{display:flex;flex-direction:column;position:static;transform:none;box-shadow:none;border:none;background:none;padding:0 0 0 16px;}
+      .nav-dropdown .dropdown-menu a{border-bottom:none;font-size:0.9rem;padding:6px 0;}
+      .nav-cta{display:inline-block;margin-top:8px;text-align:center;}
       .episode-card{grid-template-columns:1fr;padding:24px;}.ep-num{display:none;}
       .archive-item{flex-wrap:wrap;gap:8px;}.contact-inner{gap:40px;}
     }
@@ -132,7 +141,10 @@
 <nav>
   <div class="nav-inner">
     <a href="#" class="nav-logo">More <span>Substance</span></a>
-    <ul class="nav-links">
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="nav-links">
       <li><a href="#episodes">Episodes</a></li>
       <li><a href="#about">About</a></li>
       <li><a href="#contact">Contact</a></li>
@@ -303,6 +315,16 @@
     showError();}
   function toggleArchive(){const more=document.getElementById('archive-more'),btn=document.getElementById('show-more-btn');if(!more)return;const vis=more.classList.contains('visible');more.classList.toggle('visible',!vis);const total=document.querySelectorAll('.archive-item').length+FEATURED;btn.textContent=vis?`Show all ${total} episodes ↓`:'Show fewer ↑';}
   load();
+</script>
+<script>
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('nav-links');
+  hamburger.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+  });
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => navLinks.classList.remove('open'));
+  });
 </script>
 </body>
 </html>
